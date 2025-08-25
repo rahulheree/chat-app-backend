@@ -3,7 +3,6 @@ from typing import List, Optional
 import datetime
 import uuid
 
-# --- User Schemas ---
 class UserBase(BaseModel):
     name: str
 
@@ -15,7 +14,6 @@ class User(UserBase):
     role: str
     model_config = ConfigDict(from_attributes=True)
 
-# --- Room Schemas ---
 class RoomBase(BaseModel):
     name: str
     is_public: bool = True
@@ -38,7 +36,6 @@ class RoomMember(BaseModel):
 class RoomDetails(Room):
     members: List[RoomMember]
 
-# --- Message Schemas ---
 class MessageBase(BaseModel):
     content: str
     file_url: Optional[str] = None
@@ -54,7 +51,6 @@ class Message(MessageBase):
     type: str
     model_config = ConfigDict(from_attributes=True)
 
-# --- Feed and Stats Schemas ---
 class PublicRoomFeedItem(Room):
     active_users: int
 
@@ -66,7 +62,6 @@ class RoomStats(BaseModel):
     active_users: int
     unread_count: int
 
-# --- Token and Invite Schemas ---
 class Token(BaseModel):
     join_token: str
 

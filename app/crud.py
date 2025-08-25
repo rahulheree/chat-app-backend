@@ -6,7 +6,6 @@ import datetime
 from typing import List, Optional
 import uuid
 
-# --- User and Session Functions (Unchanged) ---
 async def get_user(db: AsyncSession, user_id: int) -> Optional[models.User]:
     result = await db.execute(select(models.User).filter(models.User.id == user_id))
     return result.scalars().first()
@@ -39,7 +38,6 @@ async def get_user_by_session_id(db: AsyncSession, session_id: str) -> Optional[
     session = result.scalars().first()
     return session.user if session else None
 
-# --- Room Functions (Updated for Pagination) ---
 async def create_room(db: AsyncSession, room: schemas.RoomCreate, current_user: models.User) -> models.Room:
     is_community_room = (current_user.role == 'admin')
     db_room = models.Room(
@@ -110,7 +108,6 @@ async def delete_room(db: AsyncSession, room_id: int) -> Optional[models.Room]:
         await db.commit()
     return db_room
 
-# --- Room Member and Message Functions (Unchanged) ---
 async def add_user_to_room(db: AsyncSession, room_id: int, user_id: int) -> Optional[models.RoomMember]:
     result = await db.execute(
         select(models.RoomMember).filter_by(room_id=room_id, user_id=user_id)
@@ -164,7 +161,6 @@ async def get_messages_for_room(db: AsyncSession, room_id: int, skip: int = 0, l
     result = await db.execute(query)
     return result.scalars().all()
 
-# --- Invite Functions (Unchanged) ---
 async def create_room_invite(db: AsyncSession, room_id: int) -> models.RoomInvite:
     db_invite = models.RoomInvite(room_id=room_id)
     db.add(db_invite)
